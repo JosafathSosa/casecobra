@@ -36,7 +36,7 @@ export const ourFileRouter = {
             id: configId
           },
           data: {
-            croppedImageUrl: file.url
+            croppedImage: file.url
           }
         })
         return {configId: updatedConfiguration.id}
