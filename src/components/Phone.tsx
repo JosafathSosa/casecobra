@@ -24,13 +24,17 @@ export const Phone = ({
         src={
           dark
             ? "/phone-template-dark-edges.png"
-            : "phone-template-white-edges.png"
+            : "/phone-template-white-edges.png"
         }
         className="pointer-events-none z-50 select-none"
         alt="phone image"
       />
       <div className="absolute -z-10 inset-0 ">
-        <img className="object-cover" src={imgSrc} alt="overlayImage" />
+        <img
+          className="object-cover min-w-full min-h-full"
+          src={imgSrc}
+          alt="overlayImage"
+        />
       </div>
     </div>
   );
