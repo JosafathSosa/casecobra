@@ -3,9 +3,10 @@ import { Configuration } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
 import { Phone } from "@/components/Phone";
-import { COLORS, MODELS } from "@/validators/option-validator";
-import { cn } from "@/lib/utils";
+import { COLORS, FINISHES, MODELS } from "@/validators/option-validator";
+import { cn, formatPrice } from "@/lib/utils";
 import { Check } from "lucide-react";
+import { BASE_PRICE, PRODUCT_PRIZES } from "@/config/products";
 
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -13,7 +14,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   useEffect(() => setShowConfetti(true));
 
   //Obtiene los datos reales de la base de datos segun el ID
-  const { color, model } = configuration;
+  const { color, model, finish, material } = configuration;
 
   //Valida los datos con los que tenemos
   const tw = COLORS.find(
@@ -55,7 +56,49 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
         <div className="sm:col-span-12 md:col-span-9 text-base">
           <div className="grid grid-col-1 gap-y-8 border-b border-gray-200 py-8 sm:grid-cols-2 sm:gap-x-6 sm:py-6 md:py-10">
             <div>
-              <p className="font-medium text-zinc-950">Highlghts</p>
+              <p className="font-medium text-zinc-950">Highlights</p>
+              <ol className="mt-3 text-zinc-700 list-disc list-inside">
+                <li>Wireless Charging comparible</li>
+                <li>TPU shock absorption</li>
+                <li>Packaging made from recycled materials</li>
+                <li>5 year print warranty</li>
+              </ol>
+            </div>
+            <div>
+              <p className="font-medium text-zinc-950">Materials</p>
+              <ol className="mt-3 text-zinc-700 list-disc list-inside">
+                <li>High-quality durable material</li>
+                <li>Scratch and fingerprint resistant coating</li>
+              </ol>
+            </div>
+          </div>
+          <div className="mt-8 ">
+            <div className="bg-gray-50 p-6 sm:rounded-lg sm:p-8">
+              <div className="flow-root">
+                <div className="flex items-center justify-between py-1 mt-2">
+                  <p className="text-gray-600">Base price</p>
+                  <p className="font-medium text-gray-900">
+                    {formatPrice(BASE_PRICE / 100)}
+                  </p>
+                </div>
+                {finish === "textured" ? (
+                  <div className="flex items-center justify-between py-1 mt-2">
+                    <p className="text-gray-600">Textured finish</p>
+                    <p className="font-medium text-gray-900">
+                      {formatPrice(PRODUCT_PRIZES.finish.textured / 100)}
+                    </p>
+                  </div>
+                ) : null}
+
+                {material === "polycarbonate" ? (
+                  <div className="flex items-center justify-between py-1 mt-2">
+                    <p className="text-gray-600">Soft polycarbonate material</p>
+                    <p className="font-medium text-gray-900">
+                      {formatPrice(PRODUCT_PRIZES.material.polycarbonate / 100)}
+                    </p>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
