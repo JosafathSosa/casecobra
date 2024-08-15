@@ -10,22 +10,28 @@ import { useToast } from "@/components/ui/use-toast";
 
 export default function Page() {
   const { toast } = useToast();
+
+  //Variables
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    //Cuando el cliente completa la subida de imagen ->
     onClientUploadComplete: ([data]) => {
       const configId = data.serverData.configId;
+      //Cambia de pagina y ademas manda el ID del cliente
       startTransition(() => {
         router.push(`/configure/design?id=${configId}`);
       });
     },
     onUploadProgress(p) {
+      //Guardamos el valor del progreso en la variable uploadProgress
       setUploadProgress(p);
     },
   });
 
+  //Funcion para validar que el achivo a subir sea una imagen
   const onDropRejected = (rejectedFiles: FileRejection[]) => {
     const [file] = rejectedFiles;
     setIsDragOver(false);
@@ -37,6 +43,7 @@ export default function Page() {
     });
   };
 
+  //Si el achivo es aceptado iniciamos la subida
   const onDropAccepted = (acceptedFiles: File[]) => {
     startUpload(acceptedFiles, { configId: undefined });
 
@@ -53,6 +60,7 @@ export default function Page() {
       )}
     >
       <div className="relative flex flex-1 flex-col items-center justify-center w-full">
+        {/*Drop zone permite validar ciertos archivos de manera mas facil gracias a sus metodos*/}
         <Dropzone
           onDropRejected={onDropRejected}
           onDropAccepted={onDropAccepted}
