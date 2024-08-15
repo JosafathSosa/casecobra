@@ -5,8 +5,10 @@ import Confetti from "react-dom-confetti";
 import { Phone } from "@/components/Phone";
 import { COLORS, FINISHES, MODELS } from "@/validators/option-validator";
 import { cn, formatPrice } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { BASE_PRICE, PRODUCT_PRIZES } from "@/config/products";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -24,6 +26,14 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const { label: modelLabel } = MODELS.options.find(
     ({ value }) => value === model
   )!;
+
+  let totalPrice = BASE_PRICE;
+  if (material === "polycarbonate")
+    totalPrice += PRODUCT_PRIZES.material.polycarbonate;
+
+  if (finish === "textured") totalPrice += PRODUCT_PRIZES.finish.textured;
+
+  const {} = useMutation({});
 
   return (
     <>
@@ -98,7 +108,24 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
                     </p>
                   </div>
                 ) : null}
+                <div className="my-2 h-px bg-gray-200 " />
+                <div className="flex items-center justify-between py-2">
+                  <p className="font-semibold text-gray-900">Order total</p>
+                  <p className="font-semibold text-gray-900">
+                    {formatPrice(totalPrice / 100)}
+                  </p>
+                </div>
               </div>
+            </div>
+            <div className="mt-8 flex justify-end pb-12 ">
+              <Button
+                isLoading={true}
+                loadingText="Loading"
+                className="px-4 sm:px-6 lg:px-8"
+              >
+                Check out
+                <ArrowRight className="h-4 w-4 ml-1.5 inline" />
+              </Button>
             </div>
           </div>
         </div>

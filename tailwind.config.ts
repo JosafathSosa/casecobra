@@ -1,14 +1,14 @@
-import { transform } from "next/dist/build/swc"
-import type { Config } from "tailwindcss"
+import { transform } from "next/dist/build/swc";
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -62,25 +62,32 @@ const config = {
       keyframes: {
         "fade-in": {
           from: {
-            opacity: "0"
+            opacity: "0",
           },
           to: {
-            opacity: "1"
-          }
+            opacity: "1",
+          },
         },
         marquee: {
           "100%": {
-            transform: "translateY(-50%)"
-          }
-        }
+            transform: "translateY(-50%)",
+          },
+        },
+        flashing: {
+          "0%, 100%": {
+            opacity: "0.2",
+          },
+          "20%": { opacity: "1" },
+        },
       },
       animation: {
-        "marquee": 'marquee var(--marquee-duration) linear infinite',
-        "fade-in": "fade-in 0.5 linear forwards"
+        marquee: "marquee var(--marquee-duration) linear infinite",
+        "fade-in": "fade-in 0.5 linear forwards",
+        flashing: "flashing 1.4s infinite linear ",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;
